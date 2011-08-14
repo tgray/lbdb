@@ -155,7 +155,7 @@ ABQuery/sym/ABQuery: ABQuery/pbxbuild.sh ABQuery/ABQuery.m
 
 ABQuery/pbxbuild.sh:
 	if [ "$(XCODEBUILD)" != "no" ]; then \
-		(cd ABQuery; xcodebuild -buildstyle Deployment; printf '#!/bin/sh\nmkdir ABQuery/sym\nEXE=ABQuery/build/ABQuery\nif test -x ABQuery/build/Deployment/ABQuery; then EXE=ABQuery/build/Deployment/ABQuery; fi\ncp $$EXE ABQuery/sym\n' > pbxbuild.sh; chmod a+x pbxbuild.sh) \
+		(cd ABQuery; xcodebuild; printf '#!/bin/sh\nmkdir ABQuery/sym\nEXE=ABQuery/build/ABQuery\nif test -x ABQuery/build/Release/ABQuery; then EXE=ABQuery/build/Release/ABQuery; fi\ncp $$EXE ABQuery/sym\n' > pbxbuild.sh; chmod a+x pbxbuild.sh) \
 	else \
 		(cd ABQuery; pbxbuild -buildstyle Deployment export) \
 	fi
@@ -163,7 +163,8 @@ ABQuery/pbxbuild.sh:
 clean:
 	-rm -f *.o *~ $(ALL) munge.awk munge-keeporder.awk tac.awk \
 		nodelist2lbdb.pl palm_lsaddr.pl mutt_ldap_query.pl lbdb_dotlock
-	-rm -rf ABQuery/sym ABQuery/obj
+	-rm -rf ABQuery/sym ABQuery/obj ABQuery/build
+	-rm ABQuery/pbxbuild.sh
 
 distclean: clean
 	-rm -f config.status config.cache config.log Makefile

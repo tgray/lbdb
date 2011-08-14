@@ -31,7 +31,7 @@ int main (int argc, const char *argv[]) {
     NSArray *results;
     NSEnumerator *addressEnum;
     ABPerson *person;
-    NSString *key = [NSString stringWithCString:argv[1]];
+    NSString *key = [NSString stringWithCString:argv[1] encoding:NSASCIIStringEncoding];
 
     firstNameSearch = [ABPerson searchElementForProperty:kABFirstNameProperty
 		                  label:nil
@@ -63,7 +63,7 @@ int main (int argc, const char *argv[]) {
         int i;
         for (i = 0; i < count; i++) {
             NSString *email = [emails valueAtIndex:i];
-            printf("%s\t%s\t(AddressBook)\n", [email cString], [fullName UTF8String]);
+            printf("%s\t%s\t(AddressBook)\n", [email cStringUsingEncoding:NSASCIIStringEncoding], [fullName UTF8String]);
       }
     }
 
