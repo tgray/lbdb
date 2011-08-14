@@ -1,0 +1,96 @@
+#!/usr/bin/make -f
+# (c) 1998-2011  Roland Rosenfeld <roland@debian.org>
+# Sample debian/rules that uses debhelper.
+# This file is public domain software, originally written by Joey Hess. 
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DROOT=`pwd`/debian/lbdb
+
+OPTIMIZE=
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+        OPTIMIZE=-O0
+else
+        OPTIMIZE=-O2
+endif
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+	env SH=/bin/sh MAWK=/usr/bin/awk \
+		./configure --prefix=/usr --libdir='$${prefix}/lib/lbdb' \
+			--mandir='$${prefix}/share/man' --sysconfdir=/etc \
+			--enable-lbdb-dotlock \
+			--with-finger=/usr/bin/finger \
+		        --with-abook=/usr/bin/abook \
+		        --with-addr-email=/usr/bin/addr-email \
+		        --with-ypcat=/usr/bin/ypcat \
+		        --with-getent=/usr/bin/getent \
+		        --with-gpg=/usr/bin/gpg \
+		        --with-pgpk=/usr/bin/pgpk \
+		        --with-pgp=/usr/bin/pgp \
+		        --with-evolution-addressbook-export=auto
+
+	$(MAKE) CFLAGS="$(OPTIMIZE) -Wall -g"
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+
+	[ ! -f Makefile ] || $(MAKE) distclean
+	rm -f lbdb.spec
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	$(MAKE) install_prefix=$(DROOT) install
+	install -m644 -oroot -groot lbdb.el \
+		$(DROOT)/usr/share/emacs/site-lisp/lbdb/lbdb.el
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installexamples
+#	dh_install
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate
+	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+#	dh_undocumented
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_makeshlibs
+	dh_installdeb
+	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

@@ -1,0 +1,40 @@
+$Id: TODO,v 1.21 2005-10-29 22:55:16 roland Exp $
+
+- Add new modules:
+    - Add m_pgp6 for PGP 6.5.1.
+
+- lbdb_dotlock: Have a deep look into the locking mechanism.  Over NFS
+  dotlocking may not be enough, it should be combined with fcntl()
+  (this should be possible to disable via configure option).  This
+  means that we may no longer use mutt_dotlock but always use a
+  private lbdb_dotlock.
+
+- fetchaddr: Find out why fetchaddr sometimes runs forever on Solaris 2.6.
+
+- Add man page for configuration file lbdbrc(5) or something like
+  this.
+
+- Think about a debug/log mechanism for lbdbq and the modules, so an
+  error in a module doesn't imply lbdbq to fail but all other modules
+  work as usual and the error messages (and debug informations) are
+  written to the logfile (maybe ~/.lbdb/debug).
+
+- lbdb-fetchaddr/m_inmail: Make the database file configurable.  This
+  can be realized in lbdb-fetchaddr via a new option, while m_inmail
+  needs a new lbdbrc-variable for this.
+
+- replace m_passwd and m_yppasswd by m_getent, if getent(1) is
+  supported by all UNIXes.  Otherwise we need some autoconf magic to
+  do the right thing...
+
+- Optimize munge/munge-keeporder to work case-insensitive (at least on
+  the domain part of the addresses).
+
+- Add UTF-8 support.
+
+Roland Rosenfeld <roland@spinnaker.de>
+$Id: TODO,v 1.21 2005-10-29 22:55:16 roland Exp $
+
+Local variables:
+mode: text
+End:

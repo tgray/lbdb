@@ -1,0 +1,81 @@
+# -*- perl -*-
+#
+# $Id: lbdb_ldap.rc,v 1.10 2007-05-28 09:04:49 roland Exp $
+#
+# The format of each entry of the ldap server database is the following:
+# LDAP_NICKNAME => ['LDAP_SERVER',
+#                   'LDAP_SEARCH_BASE',
+#                   'LDAP_SEARCH_FIELDS',
+#                   'LDAP_EXPECTED_ANSWERS',
+#                   'LDAP_RESULT_EMAIL',
+#                   'LDAP_RESULT_REALNAME',
+#                   'LDAP_RESULT_COMMENT',
+#                   'IGNORANT' (optional),
+#                   'LDAP_BIND_DN' (optional),
+#                   'LDAP_BIND_PASSWORD (optional)],
+# (IGNORANT is an optional argument. If you set it to 1, mutt_ldap_query
+# uses wildcards *foo* for searching).
+# (LDAP_BIND_DN and LDAP_BIND_PASSWORD are optional arguments. Leave them
+# out or empty to use and anonymous bind)
+# A practical illustrating example being:
+#  debian	=> ['db.debian.org', 'ou=users,dc=debian,dc=org',
+#                   'uid cn sn ircnick', 'uid cn sn ircnick',
+#                   '${uid}@debian.org', '${cn} ${sn}', '${ircnick}'],
+# the output of the query will be then:
+#   ${uid}@debian.org\t${cn} ${sn}\t${ircnick} (i.e.: email name comment)
+
+# warning this database will erase default script builtin
+%ldap_server_db = (
+  'four11'	   => ['ldap.four11.com', 'c=US',
+		       'givenname sn cn mail', 'givenname cn sn mail o',
+		       '${mail}', '${givenname} ${sn}', '${o}' ],
+  'infospace'	   => ['ldap.infospace.com', 'c=US',
+		       'givenname sn cn mail', 'givenname cn sn mail o',
+		       '${mail}', '${givenname} ${sn}', '${o}' ],
+  'whowhere'	   => ['ldap.whowhere.com', 'c=US',
+		       'givenname sn cn mail', 'givenname cn sn mail o',
+		       '${mail}', '${givenname} ${sn}', '${o}' ],
+  'bigfoot'	   => ['ldap.bigfoot.com', 'c=US', 
+		       'givenname surname cn mail', 'mail cn l',
+		       '${mail}', '${cn}', '${l}' ],
+  'switchboard'	   => ['ldap.switchboard.com', 'c=US',
+		       'givenname sn cn mail', 'givenname cn sn mail o',
+		       '${mail}', '${givenname} ${sn}', '${o}' ],
+  'infospacebiz'   => ['ldapbiz.infospace.com', 'c=US',
+		       'givenname sn cn mail', 'givenname cn sn mail o',
+		       '${mail}', '${givenname} ${sn}', '${o}' ],
+  'debian'         => ['db.debian.org', 'ou=users,dc=debian,dc=org',
+		       'uid cn sn ircnick', 'uid cn sn ircnick',
+		       '${uid}@debian.org', '${cn} ${sn}', '${ircnick}' ],
+  'crm'            => ['ldap.crm.mot.com', 'o=Motorola,c=US',
+		       'cn mail sn fn uid',
+		       'cn fn sn mail business_group telephonenumber',
+		       '${mail}', '${fn} ${sn}',
+		       '(${telephonenumber}) ${business_group}' ],
+  'motorola'       => ['ldap.mot.com', 'ou=employees, o=Motorola,c=US',
+		       'commonName gn sn cn uid',
+		       'gn sn preferredRfc822Recipient ou c telephonenumber',
+		       '${preferredRfc822Recipient}', '${gn} ${sn}',
+		       '(${telephonenumber}) ${ou} ${c}' ]
+);
+
+# hostname of your ldap server
+$ldap_server = 'db.debian.org';
+# ldap base search
+$search_base = 'ou=users,dc=debian,dc=org';
+# list of the fields that will be used for the query
+$ldap_search_fields = 'uid cn sn ircnick';
+# list of the fields that will be used for composing the answer
+$ldap_expected_answers = 'uid cn sn ircnick';
+# format of the email result based on the expected answers of the ldap query
+$ldap_result_email = '${uid}@debian.org';
+# format of the realname result based on the expected answers of the ldap query
+$ldap_result_realname = '${cn} ${sn}';
+# format of the comment result based on the expected answers of the ldap query
+$ldap_result_comment = '(${ircnick})';
+# Don't use wildchars on searching
+$ignorant = 0;
+# Do an anonymous bind to the LDAP server:
+$ldap_bind_dn = '';
+$ldap_bind_password = '';
+1;

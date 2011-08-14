@@ -1,0 +1,37 @@
+Source: lbdb
+Section: mail
+Priority: optional
+Maintainer: Roland Rosenfeld <roland@debian.org>
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 5), perl, libvformat-dev
+Homepage: http://www.spinnaker.de/lbdb/
+
+Package: lbdb
+Architecture: any
+Depends: ${shlibs:Depends}, ${perl:Depends}, ${misc:Depends}
+Suggests: mutt | mutt-ja, procmail, finger, abook, libpalm-perl,
+ libnet-ldap-perl
+Description: Little Brother's DataBase for the mutt mail reader
+ This package consists of a set of small tools, which collect mail
+ addresses from several sources and offer these addresses to the mutt
+ external query feature. At the moment the following modules are
+ supported:
+  - m_finger (uses the finger(1) command)
+  - m_inmail (scans incoming mail for addresses)
+  - m_passwd (searches /etc/passwd)
+  - m_yppasswd (searches the YP password database)
+  - m_nispasswd (searches the NIS password database)
+  - m_getent (searches the configured password database)
+  - m_pgp2, m_pgp5, m_gpg (searches your PGP or GnuPG keyrings)
+  - m_fido (searches the Fidonet nodelist)
+  - m_abook (uses the address book application abook(1))
+  - m_addr_email (uses addr-email from the addressbook Tk program)
+  - m_muttalias (searches your Mutt mail aliases)
+  - m_pine (searches your Pine addressbook files)
+  - m_wanderlust (search the WanderLust alias database)
+  - m_palm (uses your Palm database; needs libpalm-perl package)
+  - m_gnomecard (uses GnomeCard database files)
+  - m_bbdb (search your BBDB (big brother database))
+  - m_ldap (query some LDAP server)
+  - m_evolution (search in the Evolution addressbook)
+  - m_vcf (search in vcard files using libvformat)
