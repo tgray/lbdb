@@ -1,3 +1,10 @@
+lbdb (0.38.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Apply patch to build ABQuery module with XCode 4 on OS X 10.7.
+
+ -- Tim Gray <tgray@125px.com>  Sun, 14 Aug 2011 20:33:01 +0000 
+
 lbdb (0.38) unstable; urgency=low
 
   * m_evolution: Try to evaluate the location of
