@@ -1,0 +1,7 @@
+ABQuery/build
+ABQuery/pbxbuild.sh
+ABQuery/sym
+Makefile
+config.log
+config.status
+*.o
