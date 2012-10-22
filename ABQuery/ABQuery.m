@@ -26,7 +26,7 @@
 int main (int argc, const char *argv[]) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     ABAddressBook *book = [ABAddressBook sharedAddressBook];
-    ABSearchElement *firstNameSearch, *lastNameSearch, *emailSearch, *search;
+    ABSearchElement *firstNameSearch, *lastNameSearch, *emailSearch, *search, *nickSearch, *organizationSearch;
     NSArray *searchTerms;
     NSArray *results;
     NSEnumerator *addressEnum;
@@ -34,23 +34,38 @@ int main (int argc, const char *argv[]) {
     NSString *key = [NSString stringWithCString:argv[1] encoding:NSASCIIStringEncoding];
 
     firstNameSearch = [ABPerson searchElementForProperty:kABFirstNameProperty
-		                  label:nil
-		                  key:nil
-				  value:key
-                                  comparison:kABContainsSubStringCaseInsensitive];
+                                                   label:nil
+                                                     key:nil
+                                                   value:key
+                                              comparison:kABContainsSubStringCaseInsensitive];
+    
     lastNameSearch = [ABPerson searchElementForProperty:kABLastNameProperty
-		                  label:nil
-		                  key:nil
-				  value:key
-                                  comparison:kABContainsSubStringCaseInsensitive];
+                                                  label:nil
+                                                    key:nil
+                                                  value:key
+                                             comparison:kABContainsSubStringCaseInsensitive];
+
     emailSearch = [ABPerson searchElementForProperty:kABEmailProperty
-                              label:nil
-			      key:nil
-			      value:key
-			      comparison:kABContainsSubStringCaseInsensitive];
-    searchTerms = [NSArray arrayWithObjects:firstNameSearch, lastNameSearch, emailSearch, nil];
+                                               label:nil
+                                                 key:nil
+                                               value:key
+                                          comparison:kABContainsSubStringCaseInsensitive];
+    
+    nickSearch = [ABPerson searchElementForProperty:kABNicknameProperty
+                                               label:nil
+                                                 key:nil
+                                               value:key
+                                          comparison:kABContainsSubStringCaseInsensitive];
+
+    organizationSearch = [ABPerson searchElementForProperty:kABOrganizationProperty
+                                              label:nil
+                                                key:nil
+                                              value:key
+                                         comparison:kABContainsSubStringCaseInsensitive];
+    
+    searchTerms = [NSArray arrayWithObjects:firstNameSearch, lastNameSearch, emailSearch, nickSearch, organizationSearch, nil];
     search = [ABSearchElement searchElementForConjunction:kABSearchOr
-                                children:searchTerms];
+                                                 children:searchTerms];
     results = [book recordsMatchingSearchElement:search];
 
     addressEnum = [results objectEnumerator];
